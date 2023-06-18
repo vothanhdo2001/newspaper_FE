@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { slugify } from "../../../utils";
+import { slugifyConvert } from "../../../utils";
 
 const PostLayoutSix = ({data}) => {
   return (
@@ -19,7 +19,7 @@ const PostLayoutSix = ({data}) => {
 		<div className="media post-block grad-overlay position-absolute">
 			<div className="media-body justify-content-end">
 				<div className="post-cat-group m-b-xs-10">
-					<Link href={`/category/${slugify(data.cate)}`}>
+					<Link href={`/category/${slugifyConvert(data.cate)}`}>
 						<a className={`post-cat cat-btn btn-mid ${data.cate_bg ?? "bg-color-blue-one"}`}>{data.cate}</a>
 					</Link>
 				</div>

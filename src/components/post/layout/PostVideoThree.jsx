@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { slugify } from "../../../utils";
+import { slugifyConvert } from "../../../utils";
 
 const PostVideoThree = ({ data, imgWidth, imgHeight }) => {
 
@@ -24,7 +24,7 @@ const PostVideoThree = ({ data, imgWidth, imgHeight }) => {
         <div className="media-body media-body__big">
           <div className="axil-media-bottom mt-auto">
             <div className="post-cat-group m-b-xs-10">
-				<Link href={`/category/${slugify(data.cate)}`}>
+				<Link href={`/category/${slugifyConvert(data.cate)}`}>
 					<a className={`post-cat cat-btn btn-big ${data.cate_bg ?? "bg-color-blue-one"}`}>{data.cate}</a>
 				</Link>
             </div>
@@ -37,7 +37,7 @@ const PostVideoThree = ({ data, imgWidth, imgHeight }) => {
               <ul className="list-inline">
                 <li>
 				<span>By</span>
-				<Link href={`/author/${slugify(data.author_name)}`}>
+				<Link href={`/author/${slugifyConvert(data.author_name)}`}>
 					<a className="post-author">{data.author_name}</a>
 				</Link>
                 </li>

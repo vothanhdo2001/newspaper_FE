@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React, { useRef } from "react";
 import Slider from "react-slick";
-import { slugify } from "../../utils";
+import { slugifyConvert } from "../../utils";
 
 const WidgetCategory = ({ cateData }) => {
 
@@ -24,7 +24,7 @@ var cateList = Object.keys(category).map(cateTitle => {
 	
 	return {
 		name: cateTitle, 
-		slug: slugify(cateTitle),
+		slug: slugifyConvert(cateTitle),
 		count: category[cateTitle],
 		cateImg: imgGet[0].thumb
 	}; 

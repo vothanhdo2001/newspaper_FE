@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, { useEffect, useRef } from "react";
-import { slugify } from "../../utils";
+import { slugifyConvert } from "../../utils";
 
 const SliderThree = ({ postData }) => {
   const postContainerRef = useRef();
@@ -42,7 +42,7 @@ const SliderThree = ({ postData }) => {
                   <ul className="list-inline">
                     <li>
                       <span>By</span>
-                      <Link href={`/author/${slugify(firstPost.author_name)}`}>
+                      <Link href={`/author/${slugifyConvert(firstPost.author_name)}`}>
                         <a className="post-author">{firstPost.author_name}</a>
                       </Link>
                     </li>

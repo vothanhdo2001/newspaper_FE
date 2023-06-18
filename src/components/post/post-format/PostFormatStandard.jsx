@@ -31,8 +31,8 @@ const PostFormatStandard = ({ postData, allData }) => {
                 </article>
                 {/* <SocialShareBottom /> */}
                 <hr className="m-t-xs-50 m-b-xs-60" />
-                <PostAuthor authorData={postData} />
-                <PostComment />
+                {/* <PostAuthor authorData={postData} /> */}
+                <PostComment idPost={postData && postData.id} />
               </main>
             </div>
             <div className="col-lg-4">
@@ -40,7 +40,7 @@ const PostFormatStandard = ({ postData, allData }) => {
                 {/* <WidgetAd /> */}
                 {/* <WidgetNewsletter /> */}
                 {/* <WidgetSocialShare /> */}
-                <WidgetPost dataPost={allData} />
+                <WidgetPost dataPost={allData} postData={postData} />
                 {/* <WidgetInstagram /> */}
               </div>
             </div>

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { slugify } from "../../../../../utils";
+import { slugifyConvert } from "../../../../../utils";
 
 const MetaDataFour = ({ metaData }) => {
 
@@ -23,7 +23,7 @@ const MetaDataFour = ({ metaData }) => {
           <ul className="list-inline">
             <li>
 				<span>By</span>
-				<Link href={`/author/${slugify(metaData.author_name)}`}>
+				<Link href={`/author/${slugifyConvert(metaData.author_name)}`}>
 					<a className="post-author">{metaData.author_name}</a>
 				</Link>
             </li>

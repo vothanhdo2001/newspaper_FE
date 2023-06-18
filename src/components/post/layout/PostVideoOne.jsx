@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { slugify } from "../../../utils";
+import { slugifyConvert } from "../../../utils";
 
 const PostVideoOne = ({data}) => {
   return (
@@ -30,7 +30,7 @@ const PostVideoOne = ({data}) => {
               <ul className="list-inline">
                 <li>
                     <span>By</span>
-					<Link href={`/author/${slugify(data.author_name)}`}>
+					<Link href={`/author/${slugifyConvert(data.author_name)}`}>
 					<a className="post-author">{data.author_name}</a>
 					</Link>
                 </li>

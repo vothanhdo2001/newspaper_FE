@@ -9,7 +9,7 @@ import WidgetAd from "../../components/widget/WidgetAd";
 import WidgetCategory from "../../components/widget/WidgetCategory";
 import WidgetPost from "../../components/widget/WidgetPost";
 import WidgetSocialShare from "../../components/widget/WidgetSocialShare";
-import { slugify } from "../../utils";
+import { slugifyConvert } from "../../utils";
 
 const PostAuthor = ({postData, allPosts}) => {
     const authorContent = postData[0];
@@ -107,7 +107,7 @@ export async function getStaticProps({ params }) {
         'author_bio'
     ]);
 
-    const getAuthorData = allPosts.filter(post => slugify(post.author_name) === postParams);
+    const getAuthorData = allPosts.filter(post => slugifyConvert(post.author_name) === postParams);
     const postData = getAuthorData;
 
     return {
@@ -123,7 +123,7 @@ export async function getStaticPaths() {
 
     const paths = posts.map(post => ({
         params: {
-            slug: slugify(post.author_name)
+            slug: slugifyConvert(post.author_name)
         }
     }))
 

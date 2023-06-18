@@ -1,10 +1,10 @@
-import { slugify } from "../../utils";
+import { slugifyConvert } from "../../utils";
 import SectionTitle from "../elements/SectionTitle";
 import PostLayoutFour from "./layout/PostLayoutFour";
 
 const PostSectionSix = ({postData}) => {
 
-    const foodPost = postData.filter(post => slugify(post.cate) === 'food' || slugify(post.cate) === 'drink');
+    const foodPost = postData.filter(post => slugifyConvert(post.cate) === 'food' || slugifyConvert(post.cate) === 'drink');
 
     return ( 
         <div className="related-post p-b-xs-30">

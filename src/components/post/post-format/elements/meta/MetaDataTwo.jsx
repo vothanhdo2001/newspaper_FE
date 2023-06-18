@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { slugify } from "../../../../../utils";
+import { slugifyConvert } from "../../../../../utils";
 
 const MetaDataTwo = ({ metaData }) => {
   const basePathLink = process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_BASEPATH ?? "" : "";
@@ -43,7 +43,7 @@ const MetaDataTwo = ({ metaData }) => {
           <div className="col-lg-8">
             <div className="post-title-wrapper">
               <div className="btn-group">
-			  		<Link href={`/category/${slugify(metaData.cate)}`}>
+			  		<Link href={`/category/${slugifyConvert(metaData.cate)}`}>
                         <a className={`cat-btn ${metaData.cate_bg ?? "bg-color-blue-one"}`}>{metaData.cate}</a>
                     </Link>
               </div>
@@ -53,7 +53,7 @@ const MetaDataTwo = ({ metaData }) => {
               <div className="post-metas banner-post-metas m-t-xs-20">
                 <ul className="list-inline">
                   <li>
-				  	<Link href={`/author/${slugify(metaData.author_name)}`}>
+				  	<Link href={`/author/${slugifyConvert(metaData.author_name)}`}>
 						<a className="post-author post-author-with-img">
 							<Image 
 								src={metaData.author_img}

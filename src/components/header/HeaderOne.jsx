@@ -1,11 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useRouter } from 'next/router'
 import Link from "next/link";
 import Image from "next/image";
 import { dateFormate } from "../../utils";
 import SocialLink from "../../data/social/SocialLink.json";
 import MenuData from "../../data/menu/HeaderMenu.json";
 import OffcanvasMenu from "./OffcanvasMenu";
-
+import searchService from "../../services/searchService";
+import { defaultCategory } from "../../constant";
+import { slugifyConvert } from "../../utils";
 const HeaderOne = () => {
   // Main Menu Toggle
   var menuRef = useRef();
@@ -85,7 +88,26 @@ const HeaderOne = () => {
       });
     });
   };
+  //Search
+  const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      handleSearch(e);
+    }
+  };
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    router.push(`/search?query=${searchQuery}`);
 
+    // try {
+    //   const response = await searchService.getSearchParams(searchQuery)
+    //   if (!response) return;
+    //   const result = response.results
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
   return (
     <>
       <OffcanvasMenu ofcshow={show} ofcHandleClose={handleClose} />
@@ -147,27 +169,27 @@ const HeaderOne = () => {
                 <Link href="/">
                   <a>
                     <Image
-                      src="/images/logo-black.svg"
+                      src="/images/Logo-no-background.svg"
                       alt="brand-logo"
-                      width={102}
-                      height={34}
+                      width={304}
+                      height={98}
                     />
                   </a>
                 </Link>
               </div>
               <div className="main-nav-wrapper">
                 <ul className="main-navigation list-inline" ref={menuRef}>
-                  {MenuData.map((data, index) =>
+                  {defaultCategory.map((data, index) =>
                     data.submenu ? (
                       <li className="has-dropdown" key={index}>
-                        <Link href={data.path}>
-                          <a>{data.label}</a>
+                        <Link href={`/category/${slugifyConvert(data.category)}`}>
+                          <a>{data.category}</a>
                         </Link>
                         <ul className="submenu">
                           {data.submenu.map((data, index) => (
                             <li key={index}>
-                              <Link href={data.subpath}>
-                                <a>{data.sublabel}</a>
+                              <Link href={`/category/${slugifyConvert(data.category)}`}>
+                                <a>{data.subCategory}</a>
                               </Link>
                             </li>
                           ))}
@@ -175,8 +197,8 @@ const HeaderOne = () => {
                       </li>
                     ) : (
                       <li key={index}>
-                        <Link href={data.path}>
-                          <a>{data.label}</a>
+                        <Link href={`/category/${slugifyConvert(data.category)}`}>
+                          <a>{data.category}</a>
                         </Link>
                       </li>
                     )
@@ -186,16 +208,19 @@ const HeaderOne = () => {
               <div className="navbar-extra-features ml-auto">
                 <form
                   action="#"
-                  className={`navbar-search ${
-                    searchshow ? "show-nav-search" : ""
-                  }`}
+                  className={`navbar-search ${searchshow ? "show-nav-search" : ""
+                    }`}
+                  onSubmit={handleSearch}
                 >
                   <div className="search-field">
-                    <input
-                      type="text"
-                      className="navbar-search-field"
-                      placeholder="Search Here..."
-                    />
+                  <input
+                    type="text"
+                    className="navbar-search-field"
+                    placeholder="Search Here..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                  />
                     <button className="navbar-search-btn" type="button">
                       <i className="fal fa-search" />
                     </button>
@@ -214,16 +239,15 @@ const HeaderOne = () => {
                 >
                   <i className="far fa-search" />
                 </button>
-                <button className="side-nav-toggler" onClick={handleShow}>
+                {/* <button className="side-nav-toggler" onClick={handleShow}>
                   <span />
                   <span />
                   <span />
-                </button>
+                </button> */}
               </div>
               <div
-                className={`main-nav-toggler d-block d-lg-none ${
-                  mobileToggle ? "expanded" : ""
-                }`}
+                className={`main-nav-toggler d-block d-lg-none ${mobileToggle ? "expanded" : ""
+                  }`}
               >
                 <div className="toggler-inner" onClick={MobileMenuToggler}>
                   <span />

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { slugify } from "../../utils";
+import { slugifyConvert } from "../../utils";
 
 const Breadcrumb = ({bCat, aPage}) => {
   return (
@@ -14,7 +14,7 @@ const Breadcrumb = ({bCat, aPage}) => {
             </li>
             {bCat ? 
             <li className="breadcrumb-item">
-                <Link href={`/category/${slugify(bCat)}`} >
+                <Link href={`/category/${slugifyConvert(bCat)}`} >
                     <a>{bCat}</a>
                 </Link>
             </li>: ""

@@ -9,7 +9,6 @@ import PostSectionThree from "../components/post/PostSectionThree";
 import SliderOne from "../components/slider/SliderOne";
 
 const HomeTwo = ({allPosts}) => {
-
   return ( 
     <>
     <HeadMeta metaTitle="Home Two"/>

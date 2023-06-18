@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 
-const FormGroup = ({pClass, label, type, name, rows }) => {
+const FormGroup = ({pClass, label, type, name, rows, value, onChange }) => {
 
     const inputElement = useRef();
 
@@ -26,8 +26,13 @@ const FormGroup = ({pClass, label, type, name, rows }) => {
         <div className={`form-group ${pClass}`}>
             {label ? <label>{label}</label> : ""}
             {type === "textarea" ? 
-            <textarea type={type} name={name} ref={inputElement} rows={rows ?? 3} required />: 
-            <input type={type} name={name} ref={inputElement} required /> 
+            <textarea type={type} name={name} ref={inputElement} rows={rows ?? 3}  
+            value={value}
+            onChange={onChange}>
+            </textarea> : 
+            <input type={type} name={name} ref={inputElement} required 
+            value={value}
+            onChange={onChange} /> 
             }
         </div>
     );

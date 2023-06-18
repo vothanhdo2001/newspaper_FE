@@ -6,6 +6,8 @@ import PostLayoutTwo from "./layout/PostLayoutTwo";
 const PostSectionOne = ({ postData }) => {
   SortingByDate(postData);
   return (
+    <>
+    {postData && (<>
     <div className="recent-news-wrapper section-gap p-t-xs-15 p-t-sm-60">
       <div className="container">
         <div className="row">
@@ -31,6 +33,8 @@ const PostSectionOne = ({ postData }) => {
         </div>
       </div>
     </div>
+    </>)}
+    </>
   );
 }
 

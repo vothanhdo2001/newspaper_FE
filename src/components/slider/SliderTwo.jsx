@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 import Slider from "react-slick";
-import { slugify } from "../../utils";
+import { slugifyConvert } from "../../utils";
 
 const SliderTwo = ({ slidePost }) => {
     function SlickNextArrow(props) {
@@ -85,7 +85,7 @@ useEffect(() => {
                         <div className="post-metas home-banner-post-metas m-b-xs-20">
                             <ul className="list-inline">
                                 <li className="m-r-xs-20">
-                                    <Link href={`/author/${slugify(data.author_name)}`}>
+                                    <Link href={`/author/${slugifyConvert(data.author_name)}`}>
                                         <a  className="d-flex align-items-center">
                                             <Image
                                             src={data.author_img}
@@ -109,7 +109,7 @@ useEffect(() => {
                             <Link href={`/post/${data.slug}`}>
                                 <a className="btn btn-primary m-r-xs-30">READ MORE</a>
                             </Link>
-                            <Link href={`/category/${slugify(data.cate)}`}>
+                            <Link href={`/category/${slugifyConvert(data.cate)}`}>
                                 <a className="btn-link">ALL CURRENT NEWS</a>
                             </Link>
                         </div>

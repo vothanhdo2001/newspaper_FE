@@ -11,10 +11,12 @@ import PostFormatStandard from "../../components/post/post-format/PostFormatStan
 import PostFormatText from "../../components/post/post-format/PostFormatText";
 import PostFormatVideo from "../../components/post/post-format/PostFormatVideo";
 import PostSectionSix from "../../components/post/PostSectionSix";
+import homeService from "../../services/homeService";
+import relatedService from "../../services/relatedService";
+import { formattedDate, slugifyConvert } from "../../utils";
 
 
 const PostDetails = ({ postContent, allPosts }) => {
-
 	const PostFormatHandler = () => {
 		if (postContent.postFormat === 'video') {
 			return <PostFormatVideo postData={postContent} allData={allPosts} />
@@ -35,8 +37,14 @@ const PostDetails = ({ postContent, allPosts }) => {
 		<>
 			<HeadMeta metaTitle="Post Details" />
 			<HeaderOne />
-			<Breadcrumb bCat={postContent.cate} aPage={postContent.title} />
-			<PostFormatHandler />
+			{
+				postContent && allPosts &&
+				(
+					<>
+						<Breadcrumb bCat={postContent.cate} aPage={postContent.title} />
+						<PostFormatHandler />
+					</>
+				)}
 			{/* <PostSectionSix postData={allPosts} /> */}
 			<FooterOne />
 		</>
@@ -45,41 +53,74 @@ const PostDetails = ({ postContent, allPosts }) => {
 
 export default PostDetails;
 
+async function fetchPostBySlug(slug) {
+	try {
+		const response = await homeService.getPosts();
+		if (!response) return;
+		const result = response.results
+		const allPosts = result.find((result => slugifyConvert(result.title) === slug))
+		if (!allPosts) return
+		const getPostBySlug = {
+			id: allPosts.id,
+			title: allPosts.title,
+			excerpt: allPosts.excerpt,
+			postFormat: 'standard',
+			gallery: '/images/Logo.png',
+			featureImg: '/images/Logo.png',
+			author_social: [],
+			date: formattedDate(allPosts.dateCreate),
+			cate: allPosts.category,
+			cate_bg: 'bg-color-blue-one',
+			cate_img: '/images/Logo.png',
+			post_views: allPosts.views,
+			author_name: allPosts.author,
+			author_img: '/images/Logo.png',
+			slug: slugifyConvert(allPosts.title),
+			content: allPosts.content,
+			related_1: 4,
+			related_2: 2,
+			related_3: 3,
+			related_4: 6,
+			related_5: 7,
+			related_6: 8,
+			related_7: 9,
+			related_8: 10,
+			related_9: 11,
+		}
+		return getPostBySlug
+	} catch (error) {
+		console.error('Error getting posts:', error);
+		return []
+	}
+}
+
 export async function getStaticProps({ params }) {
-	const post = getPostBySlug(params.slug, [
-		'postFormat',
-		'title',
-		'quoteText',
-		'featureImg',
-		'videoLink',
-		'audioLink',
-		'gallery',
-		'date',
-		'slug',
-		'cate',
-		'cate_bg',
-		'author_name',
-		'author_img',
-		'author_bio',
-		'author_social',
-		'post_views',
-		'post_share',
-		'content',
-	])
-	const content = await markdownToHtml(post.content || '')
+	const slug = params.slug;
+	if (!slug) return
+	const post = await fetchPostBySlug(slug);
+	const content = await markdownToHtml(post.content || '');
+	const response = await homeService.getPosts();
+	if (!response) return;
 
-	const allPosts = getAllPosts([
-		'title',
-		'featureImg',
-		'postFormat',
-		'date',
-		'slug',
-		'cate',
-		'cate_bg',
-		'cate_img',
-		'author_name',
-	])
-
+	const result = response.results
+	const allPosts = result.map((result => {
+		return {
+			id: result.id,
+			title: result.title,
+			excerpt: result.excerpt,
+			postFormat: 'standard',
+			gallery: '/images/posts/post_1.jpg',
+			featureImg: '/images/posts/post_1.jpg',
+			date: formattedDate(result.dateCreate),
+			cate: result.category,
+			cate_bg: 'bg-color-blue-one',
+			cate_img: '/images/category/technology.png',
+			post_views: result.views,
+			author_name: result.author,
+			author_img: '/images/author/ashley_graham.png',
+			slug: slugifyConvert(result.title),
+		}
+	}))
 	return {
 		props: {
 			postContent: {
@@ -88,20 +129,47 @@ export async function getStaticProps({ params }) {
 			},
 			allPosts
 		}
-	}
+	};
 }
 
 export async function getStaticPaths() {
-	const posts = getAllPosts(['slug'])
+	try {
+		const response = await homeService.getPosts();
+		if (!response) return;
 
-	const paths = posts.map(post => ({
-		params: {
-			slug: post.slug
-		}
-	}))
-
-	return {
-		paths,
-		fallback: false,
+		const result = response.results
+		const allPosts = result.map((result => {
+			return {
+				id: result.id,
+				title: result.title,
+				excerpt: result.excerpt,
+				date: formattedDate(result.dateCreate),
+				cate: result.category,
+				post_views: result.views,
+				author_name: result.author,
+				slug: slugifyConvert(result.title)
+			}
+		}))
+		const paths = allPosts.map((post) => ({
+			params: {
+				slug: slugifyConvert(post.slug)
+			}
+		}));
+		return {
+			paths,
+			fallback: false,
+		};
+	} catch (error) {
+		console.error('Error getting posts:', error);
+		return {
+			paths: [],
+			fallback: false,
+		};
 	}
 }
+
+
+
+
+
+
