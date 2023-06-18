@@ -37,9 +37,8 @@ const PostLayoutTwo = ({ data, postSizeMd, postBgDark }) => {
           <ul className="list-inline">
             <li>
               <span>By</span>
-              <Link href={`/author/${slugifyConvert(data.author_name)}`}>
-                <a className="post-author">{data.author_name}</a>
-              </Link>
+
+              <a className="post-author">{data.author_name}</a>
             </li>
           </ul>
         </div>

@@ -118,21 +118,6 @@ const HeaderOne = () => {
               <div className="col-md">
                 <ul className="header-top-nav list-inline justify-content-center justify-content-md-start">
                   <li className="current-date">{dateFormate()}</li>
-                  <li>
-                    <Link href="/">
-                      <a>Advertisement</a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/about-us">
-                      <a>About</a>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/contact">
-                      <a>Contact</a>
-                    </Link>
-                  </li>
                 </ul>
               </div>
               <div className="col-md-auto">
@@ -213,14 +198,14 @@ const HeaderOne = () => {
                   onSubmit={handleSearch}
                 >
                   <div className="search-field">
-                  <input
-                    type="text"
-                    className="navbar-search-field"
-                    placeholder="Search Here..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                  />
+                    <input
+                      type="text"
+                      className="navbar-search-field"
+                      placeholder="Search Here..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                    />
                     <button className="navbar-search-btn" type="button">
                       <i className="fal fa-search" />
                     </button>

@@ -9,13 +9,14 @@ import WidgetAd from "../../components/widget/WidgetAd";
 import WidgetSocialShare from "../../components/widget/WidgetSocialShare";
 import WidgetPost from "../../components/widget/WidgetPost";
 import PostLayoutTwo from "../../components/post/layout/PostLayoutTwo";
+import PostLayoutOne from "../../components/post/layout/PostLayoutOne";
 import WidgetCategory from "../../components/widget/WidgetCategory";
 import homeService from "../../services/homeService";
 import { defaultCategory } from "../../constant";
 import categoryService from "../../services/categoryService";
 
 
-const PostCategory = ({ postData, allPosts }) => {
+const PostCategory = ({ postData }) => {
   if (!postData) return
   const cateContent = postData[0];
   return (
@@ -40,23 +41,20 @@ const PostCategory = ({ postData, allPosts }) => {
         <div className="random-posts section-gap">
           <div className="container">
             <div className="row">
-              <div className="col-lg-8">
-                {/* <AdBanner /> */}
+              <div className="col-lg-6">
                 <div className="axil-content">
-                  {postData.map((data) => (
-                    <PostLayoutTwo data={data} postSizeMd={true} key={data.slug} />
+                  {postData.slice(0, 1).map((data) => (
+                    <PostLayoutOne data={data} key={data.slug} />
                   ))}
                 </div>
               </div>
-              {/* <div className="col-lg-4">
-                            <div className="post-sidebar">
-                                <WidgetAd />
-                                <WidgetSocialShare />
-                                <WidgetCategory cateData={allPosts} />
-                                <WidgetPost dataPost={allPosts} />
-                                <WidgetAd img="/images/clientbanner/clientbanner3.jpg" height={492} width={320} />
-                            </div>
-                        </div> */}
+              <div className="col-lg-6">
+                <div className="axil-content">
+                  {postData.slice(2, 29).map((data) => (
+                    <PostLayoutTwo data={data} key={data.slug} />
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -107,27 +105,9 @@ export async function getStaticProps({ params }) {
   if (!slug) return
   const post = await fetchPostByCategoryId(slug);
   const postData = post
-  const response = await homeService.getPosts();
-  if (!response) return;
-
-  const result = response.results
-  const allPosts = result.map((result => {
-    return {
-      id: result.id,
-      title: result.title,
-      excerpt: result.excerpt,
-      date: formattedDate(result.dateCreate),
-      featureImg: '/images/post.png',
-      cate: result.category,
-      post_views: result.views,
-      author_name: result.author,
-      slug: slugifyConvert(result.title)
-    }
-  }))
   return {
     props: {
       postData,
-      allPosts
     }
   };
 }
