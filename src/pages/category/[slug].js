@@ -88,7 +88,7 @@ async function fetchPostByCategoryId(slug) {
         excerpt: result.excerpt,
         author_social: [],
         date: formattedDate(result.dateCreate),
-        featureImg: '/images/posts/post_1.jpg',
+        featureImg: '/images/post.png',
         cate: result.category,
         post_views: result.views,
         author_name: result.author,
@@ -117,7 +117,7 @@ export async function getStaticProps({ params }) {
       title: result.title,
       excerpt: result.excerpt,
       date: formattedDate(result.dateCreate),
-      featureImg: '/images/posts/post_1.jpg',
+      featureImg: '/images/post.png',
       cate: result.category,
       post_views: result.views,
       author_name: result.author,
@@ -134,26 +134,9 @@ export async function getStaticProps({ params }) {
 
 export async function getStaticPaths() {
   try {
-    const response = await homeService.getPosts();
-    if (!response) return;
-
-    const result = response.results
-    const allPosts = result.map((result => {
-      return {
-        id: result.id,
-        title: result.title,
-        excerpt: result.excerpt,
-        date: formattedDate(result.dateCreate),
-        featureImg: '/images/posts/post_1.jpg',
-        cate: result.category,
-        post_views: result.views,
-        author_name: result.author,
-        slug: slugifyConvert(result.title)
-      }
-    }))
-    const paths = allPosts.map((post) => ({
+    const paths = defaultCategory.map((post) => ({
       params: {
-        slug: slugifyConvert(post.cate)
+        slug: slugifyConvert(post.category)
       }
     }));
     return {

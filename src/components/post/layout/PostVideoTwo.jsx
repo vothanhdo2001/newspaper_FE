@@ -5,7 +5,7 @@ import { slugifyConvert } from "../../../utils";
 const PostVideoTwo = ({ data, pClass, videoIcon }) => {
   return (
     <div className={`media post-block post-block__small ${pClass ?? "post-block__on-dark-bg m-b-xs-30"}`}>
-      <Link href={`/post/${data.slug}`}>
+      <Link href={{ pathname: `/post/${data.slug}`, query: { postId: data.id } }}>
         <a className="align-self-center">
           <Image
             src={data.featureImg}
@@ -24,7 +24,7 @@ const PostVideoTwo = ({ data, pClass, videoIcon }) => {
           </Link>
         </div>
         <h3 className="axil-post-title hover-line hover-line">
-          <Link href={`/post/${data.slug}`}>
+          <Link href={{ pathname: `/post/${data.slug}`, query: { postId: data.id } }}>
             <a>{data.title}</a>
           </Link>
         </h3>

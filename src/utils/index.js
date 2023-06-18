@@ -18,7 +18,7 @@ const formattedDate = (inputDate) => {
 		.replace('G', 'GMT')
 }
 const slugifyConvert = function (text) {
-	if (!text) return
+	if (!text && text > 0) return
 	const slug = slugify(text);
 	return slug;
 }

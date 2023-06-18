@@ -19,6 +19,7 @@ const PostComment = (id) => {
       }
       const response = commentService.postComment(bodyRequest)
       if (!response) return
+      alert("Đã gửi")
       setFormData({
         comment: '',
         name: '',
@@ -26,6 +27,7 @@ const PostComment = (id) => {
       });
       return response
     } catch (error) {
+      alert("Gửi thất bại")
       console.error(error)
     }
   };

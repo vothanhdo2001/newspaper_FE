@@ -14,9 +14,92 @@ import PostSectionSix from "../../components/post/PostSectionSix";
 import homeService from "../../services/homeService";
 import relatedService from "../../services/relatedService";
 import { formattedDate, slugifyConvert } from "../../utils";
+import { useRouter } from 'next/router'
+import { useEffect, useState } from "react";
+import postService from "../../services/postService";
+import Image from "next/image";
 
+const PostDetails = () => {
+    const [postContent, setPostData] = useState()
+    const [allPosts, setAllPosts] = useState()
+	const router = useRouter();
+	const { postId } = router.query;
+    useEffect(() => {
+	if(!postId) return
+    const postHandler = async() => {
+    try {
+      const response = await postService.getPostById(postId)
+      if (!response) return;
+	  const result = response.results[0]
+	  const getPostBySlug = {
+		id: result.id,
+		title: result.title,
+		excerpt: result.excerpt,
+		postFormat: 'standard',
+		gallery: '/images/posts/post_1.jpg',
+		featureImg: '/images/posts/post_1.jpg',
+		author_social: [],
+		date: formattedDate(result.dateCreate),
+		cate: result.category,
+		cate_bg: 'bg-color-blue-one',
+		cate_img: '/images/category/technology.png',
+		post_views: result.views,
+		author_name: result.author,
+		author_img: '/images/author/ashley_graham.png',
+		slug: slugifyConvert(result.title),
+		content: result.content,
+		related_1: 4,
+		related_2: 2,
+		related_3: 3,
+		related_4: 6,
+		related_5: 7,
+		related_6: 8,
+		related_7: 9,
+		related_8: 10,
+		related_9: 11,
+	  }
+		const content = await markdownToHtml(getPostBySlug.content || '');
+		const currentPostData = {
+			content: content,
+			...getPostBySlug
+		}
+		setPostData(currentPostData)
+      return result
+    } catch (error) {
+      console.error(error);
+    }}
+	const allPostsHandler = async() => {
+		try {
+			const response = await homeService.getPosts();
+			if (!response) return;
 
-const PostDetails = ({ postContent, allPosts }) => {
+			const result = response.results
+			const allPosts = result.map((result => {
+	  		return {
+		id: result.id,
+		title: result.title,
+		excerpt: result.excerpt,
+		postFormat: 'standard',
+		gallery: '/images/posts/post_1.jpg',
+		featureImg: '/images/posts/post_1.jpg',
+		date: formattedDate(result.dateCreate),
+		cate: result.category,
+		cate_bg: 'bg-color-blue-one',
+		cate_img: '/images/category/technology.png',
+		post_views: result.views,
+		author_name: result.author,
+		author_img: '/images/author/ashley_graham.png',
+		slug: slugifyConvert(result.title),
+	  	}
+		}))
+		setAllPosts(allPosts)
+		} catch (error) {
+			console.error(error)
+		}
+	}
+	allPostsHandler()
+    postHandler()
+	}, [postId])
 	const PostFormatHandler = () => {
 		if (postContent.postFormat === 'video') {
 			return <PostFormatVideo postData={postContent} allData={allPosts} />
@@ -29,23 +112,35 @@ const PostDetails = ({ postContent, allPosts }) => {
 		} else if (postContent.postFormat === 'text') {
 			return <PostFormatText postData={postContent} allData={allPosts} />
 		} else {
-			return <PostFormatStandard postData={postContent} allData={allPosts} />
+			return <PostFormatStandard postData={postContent && postContent} allData={allPosts && allPosts} />
 		}
 	}
-
 	return (
 		<>
 			<HeadMeta metaTitle="Post Details" />
 			<HeaderOne />
 			{
-				postContent && allPosts &&
-				(
+				postContent && allPosts && allPosts.length > 0 && postId ?
+			(
+				<>
+					<Breadcrumb bCat={postContent.cate} aPage={postContent.title} />
+					<PostFormatHandler />
+				</>
+					) :
 					<>
-						<Breadcrumb bCat={postContent.cate} aPage={postContent.title} />
-						<PostFormatHandler />
+						<div style={{width: "100%", display: "grid", placeItems: "center"}}>
+					<Image
+						className=""
+						src="/images/load.png!bw700"
+						alt="loadConfig..."
+						width={500}
+						height={500}
+						placeholder="blur"
+						blurDataURL="/images/placeholder.png"
+					/>
+						</div>
 					</>
-				)}
-			{/* <PostSectionSix postData={allPosts} /> */}
+			}
 			<FooterOne />
 		</>
 	);
@@ -53,123 +148,117 @@ const PostDetails = ({ postContent, allPosts }) => {
 
 export default PostDetails;
 
-async function fetchPostBySlug(slug) {
-	try {
-		const response = await homeService.getPosts();
-		if (!response) return;
-		const result = response.results
-		const allPosts = result.find((result => slugifyConvert(result.title) === slug))
-		if (!allPosts) return
-		const getPostBySlug = {
-			id: allPosts.id,
-			title: allPosts.title,
-			excerpt: allPosts.excerpt,
-			postFormat: 'standard',
-			gallery: '/images/Logo.png',
-			featureImg: '/images/Logo.png',
-			author_social: [],
-			date: formattedDate(allPosts.dateCreate),
-			cate: allPosts.category,
-			cate_bg: 'bg-color-blue-one',
-			cate_img: '/images/Logo.png',
-			post_views: allPosts.views,
-			author_name: allPosts.author,
-			author_img: '/images/Logo.png',
-			slug: slugifyConvert(allPosts.title),
-			content: allPosts.content,
-			related_1: 4,
-			related_2: 2,
-			related_3: 3,
-			related_4: 6,
-			related_5: 7,
-			related_6: 8,
-			related_7: 9,
-			related_8: 10,
-			related_9: 11,
-		}
-		return getPostBySlug
-	} catch (error) {
-		console.error('Error getting posts:', error);
-		return []
-	}
-}
+// async function fetchPostBySlug(slug) {
+// 	try {
+// 		const response = await homeService.getPosts();
+// 		if (!response) return;
+// 		const result = response.results
+// 		const allPosts = result.find((result => slugifyConvert(result.title) === slug))
+// 		if(!allPosts) return
+// 		const getPostBySlug = {
+// 			id: allPosts.id,
+// 			title: allPosts.title,
+// 			excerpt: allPosts.excerpt,
+// 			postFormat: 'standard',
+// 			gallery: '/images/posts/post_1.jpg',
+// 			featureImg: '/images/posts/post_1.jpg',
+// 			author_social: [],
+// 			date: formattedDate(allPosts.dateCreate),
+// 			cate: allPosts.category,
+// 			cate_bg: 'bg-color-blue-one',
+// 			cate_img: '/images/category/technology.png',
+// 			post_views: allPosts.views,
+// 			author_name: allPosts.author,
+// 			author_img: '/images/author/ashley_graham.png',
+// 			slug: slugifyConvert(allPosts.title),
+// 			content: allPosts.content,
+// 			related_1: 4,
+// 			related_2: 2,
+// 			related_3: 3,
+// 			related_4: 6,
+// 			related_5: 7,
+// 			related_6: 8,
+// 			related_7: 9,
+// 			related_8: 10,
+// 			related_9: 11,
+// 		}
+// 		return getPostBySlug
+// 	  } catch (error) {
+// 		console.error('Error getting posts:', error);
+// 		return []
+// 	  }
+// }
 
-export async function getStaticProps({ params }) {
-	const slug = params.slug;
-	if (!slug) return
-	const post = await fetchPostBySlug(slug);
-	const content = await markdownToHtml(post.content || '');
-	const response = await homeService.getPosts();
-	if (!response) return;
+// export async function getStaticProps({ params }) {
+// 	const slug = params.slug;
+//     if(!slug) return
+// 	const post = await fetchPostBySlug(slug);
+// 	const content = await markdownToHtml(post.content || '');
+// 	const response = await homeService.getPosts();
+// 	if (!response) return;
 
-	const result = response.results
-	const allPosts = result.map((result => {
-		return {
-			id: result.id,
-			title: result.title,
-			excerpt: result.excerpt,
-			postFormat: 'standard',
-			gallery: '/images/posts/post_1.jpg',
-			featureImg: '/images/posts/post_1.jpg',
-			date: formattedDate(result.dateCreate),
-			cate: result.category,
-			cate_bg: 'bg-color-blue-one',
-			cate_img: '/images/category/technology.png',
-			post_views: result.views,
-			author_name: result.author,
-			author_img: '/images/author/ashley_graham.png',
-			slug: slugifyConvert(result.title),
-		}
-	}))
-	return {
-		props: {
-			postContent: {
-				...post,
-				content
-			},
-			allPosts
-		}
-	};
-}
-
-export async function getStaticPaths() {
-	try {
-		const response = await homeService.getPosts();
-		if (!response) return;
-
-		const result = response.results
-		const allPosts = result.map((result => {
-			return {
-				id: result.id,
-				title: result.title,
-				excerpt: result.excerpt,
-				date: formattedDate(result.dateCreate),
-				cate: result.category,
-				post_views: result.views,
-				author_name: result.author,
-				slug: slugifyConvert(result.title)
-			}
-		}))
-		const paths = allPosts.map((post) => ({
-			params: {
-				slug: slugifyConvert(post.slug)
-			}
-		}));
-		return {
-			paths,
-			fallback: false,
-		};
-	} catch (error) {
-		console.error('Error getting posts:', error);
-		return {
-			paths: [],
-			fallback: false,
-		};
-	}
-}
-
-
-
-
-
-
+// 	const result = response.results
+// 	const allPosts = result.map((result => {
+// 	  return {
+// 		id: result.id,
+// 		title: result.title,
+// 		excerpt: result.excerpt,
+// 		postFormat: 'standard',
+// 		gallery: '/images/posts/post_1.jpg',
+// 		featureImg: '/images/posts/post_1.jpg',
+// 		date: formattedDate(result.dateCreate),
+// 		cate: result.category,
+// 		cate_bg: 'bg-color-blue-one',
+// 		cate_img: '/images/category/technology.png',
+// 		post_views: result.views,
+// 		author_name: result.author,
+// 		author_img: '/images/author/ashley_graham.png',
+// 		slug: slugifyConvert(result.title),
+// 	  }
+// 	}))
+// 	return {
+// 	  props: {
+// 		postContent: {
+// 		  ...post,
+// 		  content
+// 		},
+// 		allPosts
+// 	  }
+// 	};
+// }
+  
+// export async function getStaticPaths() {
+// 	try {
+// 	  const response = await homeService.getPosts();
+// 	  if (!response) return;
+  
+//       const result = response.results
+// 	  const allPosts = result.map((result => {
+//         return {
+//           id: result.id,
+//           title: result.title,
+//           excerpt: result.excerpt,
+//           date: formattedDate(result.dateCreate),
+//           cate: result.category,
+//           post_views: result.views,
+//           author_name: result.author,
+//           slug: slugifyConvert(result.title)
+//         }
+//       }))
+// 	  const paths = allPosts.map((post) => ({
+// 		params: {
+// 		  slug: slugifyConvert(post.slug)
+// 		}
+// 	  }));
+// 	  return {
+// 		paths,
+// 		fallback: false,
+// 	  };
+// 	} catch (error) {
+// 	  console.error('Error getting posts:', error);
+// 	  return {
+// 		paths: [],
+// 		fallback: false,
+// 	  };
+// 	}
+// }

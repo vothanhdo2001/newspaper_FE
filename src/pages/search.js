@@ -16,7 +16,7 @@ import { useRouter } from 'next/router'
 import { useEffect, useState } from "react";
 import searchService from "../services/searchService";
 import ErrorPage from "./404";
-
+import Image from "next/image";
 const PostSearch = () => {
     const [postData, setPostData] = useState([])
     const router = useRouter();
@@ -51,26 +51,14 @@ const PostSearch = () => {
     }, [searchQuery])
     if (!postData) return
     const cateContent = postData[0];
-    console.log(cateContent)
     return (
         <>
-            {postData && cateContent ? (<>
-                <HeadMeta metaTitle={cateContent.cate} />
-                <HeaderOne />
-                {/* <Breadcrumb aPage={cateContent.cate} /> */}
-                {/* Banner Start here  */}
-                <div className="banner banner__default bg-grey-light-three">
-                    <div className="container">
-                        <div className="row align-items-center">
-                            <div className="col-lg-12">
-                                <div className="post-title-wrapper">
-                                    <h2 className="m-b-xs-0 axil-post-title hover-line">Tìm kiếm gần đây</h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                {/* Banner End here  */}
+
+            <HeadMeta />
+            <HeaderOne />
+            {/* <Breadcrumb aPage={cateContent.cate} /> */}
+            {/* Banner Start here  */}
+            <>
                 <div className="random-posts section-gap">
                     <div className="container">
                         <div className="row">
@@ -85,8 +73,20 @@ const PostSearch = () => {
                         </div>
                     </div>
                 </div>
-                <FooterOne />
-            </>) : <ErrorPage></ErrorPage>}
+            </>
+            {!postData[0] && <div style={{ width: "100%", display: "grid", placeItems: "center" }}>
+                <h2 className="text-center">Chưa tìm thấy</h2>
+                <Image
+                    className=""
+                    src="/images/load.png!bw700"
+                    alt="loadConfig..."
+                    width={500}
+                    height={500}
+                    placeholder="blur"
+                    blurDataURL="/images/placeholder.png"
+                />
+            </div>}
+            <FooterOne />
         </>
     );
 }

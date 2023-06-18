@@ -18,16 +18,16 @@ const WidgetPost = ({ dataPost, postData }) => {
                     title: related.title,
                     excerpt: related.excerpt,
                     postFormat: 'standard',
-                    gallery: '/images/Logo.png',
-                    featureImg: '/images/Logo.png',
+                    gallery: '/images/post.png',
+                    featureImg: '/images/post.png',
                     author_social: [],
                     date: formattedDate(related.dateCreate),
                     cate: related.category,
                     cate_bg: 'bg-color-blue-one',
-                    cate_img: '/images/Logo.png',
+                    cate_img: '/images/post.png',
                     post_views: related.views,
                     author_name: related.author,
-                    author_img: '/images/Logo.png',
+                    author_img: '/images/post.png',
                     slug: slugifyConvert(related.title),
                     content: related.content,
                 }
@@ -35,7 +35,7 @@ const WidgetPost = ({ dataPost, postData }) => {
             setRelatedData(allPosts)
         }
         fetchRelated()
-    }, [])
+    }, [postData])
     return (
         <div className="post-widget sidebar-post-widget m-b-xs-40">
             <Tab.Container id="widget-post" defaultActiveKey="recent">
@@ -43,12 +43,6 @@ const WidgetPost = ({ dataPost, postData }) => {
                     <Nav.Item className="col">
                         <Nav.Link eventKey="recent">Related Posts</Nav.Link>
                     </Nav.Item>
-                    {/* <Nav.Item className="col">
-                <Nav.Link eventKey="popular">POPULAR</Nav.Link>
-                </Nav.Item>
-                <Nav.Item className="col">
-                <Nav.Link eventKey="comments">COMMENTS</Nav.Link>
-                </Nav.Item> */}
                 </Nav>
                 {/* {console.log(dataPost)} */}
                 <Tab.Content>
@@ -56,7 +50,7 @@ const WidgetPost = ({ dataPost, postData }) => {
                         {relatedData && relatedData
                             .map(data => {
                                 return (
-                                    <PostVideoTwo data={data} pClass="" key={data.slug} />
+                                    <PostVideoTwo data={data} pClass="" key={slugifyConvert(data.slug)} />
                                 )
                             }
                             )}

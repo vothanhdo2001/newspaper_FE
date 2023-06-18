@@ -5,7 +5,7 @@ import { slugifyConvert } from "../../../utils";
 const PostLayoutTwo = ({ data, postSizeMd, postBgDark }) => {
   return (
     <div className={`media post-block m-b-xs-30 ${postSizeMd === true ? "post-block__mid" : ""} ${postBgDark === true ? "post-block__on-dark-bg" : ""}`}>
-      <Link href={`/post/${data.slug}`}>
+      <Link href={{ pathname: `/post/${data.slug}`, query: { postId: data.id } }}>
         <a className="align-self-center">
           <Image
             src={data.featureImg}
@@ -24,7 +24,7 @@ const PostLayoutTwo = ({ data, postSizeMd, postBgDark }) => {
           </Link>
         </div>
         <h3 className="axil-post-title hover-line hover-line">
-          <Link href={`/post/${data.slug}`}>
+          <Link href={{ pathname: `/post/${data.slug}`, query: { postId: data.id } }}>
             <a>{data.title}</a>
           </Link>
         </h3>

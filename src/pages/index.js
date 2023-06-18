@@ -6,11 +6,7 @@ import PostSectionOne from "../components/post/PostSectionOne";
 import homeService from "../services/homeService";
 
 import { getAllPosts } from "../../lib/api";
-// import PostSectionFive from "../components/post/PostSectionFive";
-// import PostSectionFour from "../components/post/PostSectionFour";
-// import PostSectionSix from "../components/post/PostSectionSix";
-// import PostSectionThree from "../components/post/PostSectionThree";
-// import PostSectionTwo from "../components/post/PostSectionTwo";
+
 
 
 const HomeOne = ({ allPosts }) => {
@@ -39,8 +35,8 @@ export async function getStaticProps() {
         excerpt: result.excerpt,
         date: formattedDate(result.dateCreate),
         cate: result.category,
-        cate_img: '/images/category/technology.png',
-        featureImg: '/images/posts/post_1.jpg',
+        cate_img: '/images/post.png',
+        featureImg: '/images/post.png',
         post_views: result.views,
         author_name: result.author,
         slug: slugifyConvert(result.title)
