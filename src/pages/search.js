@@ -34,7 +34,7 @@ const PostSearch = () => {
                         excerpt: result.excerpt,
                         author_social: [],
                         date: formattedDate(result.dateCreate),
-                        featureImg: '/images/posts/post_1.jpg',
+                        featureImg: '/images/post.png',
                         cate: result.category,
                         post_views: result.views,
                         author_name: result.author,
@@ -61,6 +61,9 @@ const PostSearch = () => {
             <>
                 <div className="random-posts section-gap">
                     <div className="container">
+                        <div className="row">
+                            <h2>Kết quả cho: {searchQuery}</h2>
+                        </div>
                         <div className="row">
                             <div className="col-lg-8">
                                 {/* <AdBanner /> */}
