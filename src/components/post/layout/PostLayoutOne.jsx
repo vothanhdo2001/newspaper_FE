@@ -7,7 +7,7 @@ const PostLayoutOne = ({ data }) => {
         <div className="axil-latest-post">
             <div className="media post-block m-b-xs-20">
                 <figure className="fig-container">
-                    <Link href={`/post/${data.slug}`}>
+                    <Link href={{ pathname: `/post/${data.slug}`, query: { postId: data.id } }}>
                         <a>
                             <Image
                                 src={data.featureImg}
@@ -27,7 +27,7 @@ const PostLayoutOne = ({ data }) => {
                 </figure>
                 <div className="media-body">
                     <h3 className="axil-post-title hover-line hover-line">
-                        <Link href={`/post/${data.slug}`}>
+                        <Link href={{ pathname: `/post/${data.slug}`, query: { postId: data.id } }}>
                             <a>{data.title}</a>
                         </Link>
                     </h3>
