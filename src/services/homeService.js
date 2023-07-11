@@ -5,14 +5,15 @@ const axiosInstance = axios.create(apiConfig);
 
 export async function getPosts() {
   try {
-    const response = await axiosInstance.get('/posts/?page=1');
+    const response = await axiosInstance.get('/posts/');
+
     return response.data;
   } catch (error) {
     console.error('Error retrieving posts:', error);
     throw error;
   }
 }
-export async function getPostPaginations({page}) {
+export async function getPostPaginations({ page }) {
   try {
     const response = await axiosInstance.get(`/posts/?page=${page}`);
     return response.data;

@@ -43,6 +43,7 @@ const PostLayoutTwo = ({ data, postSizeMd, postBgDark }) => {
           </ul>
         </div>
       </div>
+
     </div>
   );
 };

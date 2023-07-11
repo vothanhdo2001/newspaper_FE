@@ -4,18 +4,18 @@ import FooterOne from "../components/footer/FooterOne";
 import HeaderOne from "../components/header/HeaderOne";
 import PostSectionOne from "../components/post/PostSectionOne";
 import homeService from "../services/homeService";
-
-import { getAllPosts } from "../../lib/api";
-
+import Pagination from '../components/Pagination/Pagination';
 
 
-const HomeOne = ({ allPosts }) => {
+
+const HomeOne = ({ allPosts, currentPage, totalPages }) => {
   return (
     <>
       <HeadMeta metaTitle="Home One" />
       <HeaderOne />
       {allPosts &&
         <PostSectionOne postData={allPosts} />}
+      <Pagination currentPage={currentPage} totalPages={totalPages} url={""} />
       <FooterOne />
     </>
   );
@@ -23,11 +23,15 @@ const HomeOne = ({ allPosts }) => {
 
 export default HomeOne;
 
-export async function getStaticProps() {
+
+export async function getServerSideProps({ query }) {
+  const currentPage = query.page || 1;
   try {
-    const response = await homeService.getPosts();
+    const response = await homeService.getPostPaginations({ page: currentPage });
     if (!response) return
     const result = response.results
+    const totalPages = Math.floor(response.count / 30) + 1;
+
     const allPosts = result.map((result => {
       return {
         id: result.id,
@@ -43,7 +47,7 @@ export async function getStaticProps() {
       }
     }))
     return {
-      props: { allPosts },
+      props: { allPosts, currentPage, totalPages }
     };
   } catch (error) {
     console.error('Error getting posts:', error);
@@ -52,4 +56,3 @@ export async function getStaticProps() {
     };
   }
 }
-

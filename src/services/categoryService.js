@@ -12,9 +12,9 @@ export async function getCategories() {
     throw error;
   }
 }
-export async function getPostCategories(idCategory) {
+export async function getPostCategories(idCategory, page) {
   try {
-    const response = await axiosInstance.get(`posts/?category=${idCategory}`);
+    const response = await axiosInstance.get(`posts/?category=${idCategory}&page=${page}`);
     return response.data;
   } catch (error) {
     console.error('Error retrieving posts:', error);
@@ -23,6 +23,6 @@ export async function getPostCategories(idCategory) {
 }
 
 export default {
-    getCategories,
-    getPostCategories
+  getCategories,
+  getPostCategories
 };

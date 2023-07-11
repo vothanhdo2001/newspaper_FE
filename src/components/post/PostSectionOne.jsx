@@ -2,6 +2,8 @@ import { SortingByDate } from "../../utils";
 import SectionTitle from "../elements/SectionTitle";
 import PostLayoutTwo from "./layout/PostLayoutTwo";
 
+
+
 const PostSectionOne = ({ postData }) => {
   SortingByDate(postData);
   return (
@@ -37,6 +39,7 @@ const PostSectionOne = ({ postData }) => {
                 </div>
               </div>
             </div>
+
 
           </div>
         </div>
