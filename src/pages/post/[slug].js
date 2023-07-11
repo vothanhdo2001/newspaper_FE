@@ -1,18 +1,10 @@
-import { getAllPosts, getPostBySlug } from "../../../lib/api";
 import markdownToHtml from "../../../lib/markdownToHtml";
 import Breadcrumb from "../../components/common/Breadcrumb";
 import HeadMeta from "../../components/elements/HeadMeta";
 import FooterOne from "../../components/footer/FooterOne";
 import HeaderOne from "../../components/header/HeaderOne";
-import PostFormatAudio from "../../components/post/post-format/PostFormatAudio";
-import PostFormatGallery from "../../components/post/post-format/PostFormatGallery";
-import PostFormatQuote from "../../components/post/post-format/PostFormatQuote";
 import PostFormatStandard from "../../components/post/post-format/PostFormatStandard";
-import PostFormatText from "../../components/post/post-format/PostFormatText";
-import PostFormatVideo from "../../components/post/post-format/PostFormatVideo";
-import PostSectionSix from "../../components/post/PostSectionSix";
 import homeService from "../../services/homeService";
-import relatedService from "../../services/relatedService";
 import { formattedDate, slugifyConvert } from "../../utils";
 import { useRouter } from 'next/router'
 import { useEffect, useState } from "react";
@@ -102,19 +94,7 @@ const PostDetails = () => {
 		postHandler()
 	}, [postId])
 	const PostFormatHandler = () => {
-		if (postContent.postFormat === 'video') {
-			return <PostFormatVideo postData={postContent} allData={allPosts} />
-		} else if (postContent.postFormat === 'gallery') {
-			return <PostFormatGallery postData={postContent} allData={allPosts} />
-		} else if (postContent.postFormat === 'audio') {
-			return <PostFormatAudio postData={postContent} allData={allPosts} />
-		} else if (postContent.postFormat === 'quote') {
-			return <PostFormatQuote postData={postContent} allData={allPosts} />
-		} else if (postContent.postFormat === 'text') {
-			return <PostFormatText postData={postContent} allData={allPosts} />
-		} else {
-			return <PostFormatStandard postData={postContent && postContent} allData={allPosts && allPosts} />
-		}
+		return <PostFormatStandard postData={postContent && postContent} allData={allPosts && allPosts} />
 	}
 	return (
 		<>

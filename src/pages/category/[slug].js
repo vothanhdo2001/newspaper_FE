@@ -1,22 +1,13 @@
-import { getAllPosts } from "../../../lib/api";
 import FooterOne from "../../components/footer/FooterOne";
 import HeaderOne from "../../components/header/HeaderOne";
 import Breadcrumb from "../../components/common/Breadcrumb";
 import { formattedDate, slugifyConvert } from "../../utils";
 import HeadMeta from "../../components/elements/HeadMeta";
-import AdBanner from "../../components/common/AdBanner";
-import WidgetAd from "../../components/widget/WidgetAd";
-import WidgetSocialShare from "../../components/widget/WidgetSocialShare";
-import WidgetPost from "../../components/widget/WidgetPost";
 import PostLayoutTwo from "../../components/post/layout/PostLayoutTwo";
 import PostLayoutOne from "../../components/post/layout/PostLayoutOne";
 import Pagination from '../../components/Pagination/Pagination';
-
-import WidgetCategory from "../../components/widget/WidgetCategory";
-import homeService from "../../services/homeService";
 import { defaultCategory } from "../../constant";
 import categoryService from "../../services/categoryService";
-import { useEffect } from 'react';
 
 const PostCategory = ({ postData, currentPage, totalPages, slug }) => {
   if (!postData) return null;

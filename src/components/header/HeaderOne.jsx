@@ -4,9 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { dateFormate } from "../../utils";
 import SocialLink from "../../data/social/SocialLink.json";
-import MenuData from "../../data/menu/HeaderMenu.json";
 import OffcanvasMenu from "./OffcanvasMenu";
-import searchService from "../../services/searchService";
 import { defaultCategory } from "../../constant";
 import { slugifyConvert } from "../../utils";
 const HeaderOne = () => {
