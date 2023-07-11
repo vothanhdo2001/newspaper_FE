@@ -10,7 +10,7 @@ const HeadMeta = ({ metaTitle }) => {
             <meta name="description" content="Papr Trendy News and Megazine Template" />
             <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
             <title>{`TV News - ${metaTitle ? metaTitle : "Papr"}`}</title>
-            <link rel="icon" type="image/x-icon" href={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_BASEPATH ?? '' : ''}/logo-no-background.ico`} />
+            <link rel="icon" type="image/x-icon" href={`${process.env.NODE_ENV === 'production' ? process.env.NEXT_PUBLIC_BASEPATH ?? '' : ''}/favicon.ico`} />
         </Head>
     );
 }
